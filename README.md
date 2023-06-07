@@ -1,10 +1,11 @@
 # DURM Script
 
-This script runs find, du and rm to remove files, sorted on disk usage, from a given path.
+This script runs find, du and rm to remove files.
+Results are sorted on disk usage from a given path.
 
-It can be run manually, but its main purpose is to be run via cronjob or systemd unit.
+It can be run manually, but its main purpose is to be run via cronjob.
 
-Given the use of the packages, this script is only supported on Linux. It requires at least python3.7.
+This script is only supported on Linux. It requires at least python3.7.
 
 ## How to use
 
