@@ -10,6 +10,7 @@ This script is only supported on Linux. It requires at least python3.7.
 ## How to use
 
 * Clone this repository via git.
+* The rm command is commented out with an # for safety reason. Flip the # from line 9,and add it on line 10 in durm.py
 * Run the script via `python3 durm.py {path} --options`.
 
 ## Features
