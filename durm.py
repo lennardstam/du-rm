@@ -107,7 +107,7 @@ class Cleanup:
                     print(f"file: {key}\ntype: {subprocess.run(['file', '-b',key], stdout=subprocess.PIPE, text=True).stdout}size: {self._convert(size_bytes=val)}\n")
                 if not self.force:
                     active = input(self.warning + "delete item? (y/n)? " + self.endc).lower() == "y"
-                if active and not self.check or self.force:
+                if active and not self.check or self.force and not self.check:
                     subprocess.run([CMD[0],CMD[1],key]).stdout
                     if not self.force:
                         print(self.okblue + "Removed!\n" + self.endc)
