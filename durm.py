@@ -6,6 +6,9 @@ from collections import OrderedDict
 import math
 
 
+#CMD = ['rm', '-rf']
+CMD = ['date', '-r']
+
 class Cleanup:
     """remove files sorted on disk usage"""
 
@@ -104,9 +107,8 @@ class Cleanup:
                     print(f"file: {key}\ntype: {subprocess.run(['file', '-b',key], stdout=subprocess.PIPE, text=True).stdout}size: {self._convert(size_bytes=val)}\n")
                 if not self.force:
                     active = input(self.warning + "delete item? (y/n)? " + self.endc).lower() == "y"
-                if active and not self.check:
-                    pass
-                    # subprocess.run(['rm', '-rf',key])
+                if active and not self.check or self.force:
+                    subprocess.run([CMD[0],CMD[1],key]).stdout
                     if not self.force:
                         print(self.okblue + "Removed!\n" + self.endc)
                 if self.check and active:
