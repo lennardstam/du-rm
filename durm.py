@@ -22,6 +22,7 @@ class Cleanup:
         self.total_rm = 0
         self.warning = '\033[93m'
         self.okblue =  '\033[94m'
+        self.okcyan = '\033[96m'
         self.endc = '\033[0m'
 
         if dir_list := self._get_dirs():
@@ -100,7 +101,7 @@ class Cleanup:
                 if self.brief:
                     print(key)
                 else:
-                    print(f"file: {key}\nsize: {self._convert(size_bytes=val)}\ntype: {subprocess.run(['file', '-b',key], stdout=subprocess.PIPE, text=True).stdout}")
+                    print(f"file: {key}\ntype: {subprocess.run(['file', '-b',key], stdout=subprocess.PIPE, text=True).stdout}size: {self._convert(size_bytes=val)}\n")
                 if not self.force:
                     active = input(self.warning + "delete item? (y/n)? " + self.endc).lower() == "y"
                 if active and not self.check:
@@ -110,9 +111,11 @@ class Cleanup:
                         print(self.okblue + "Removed!\n" + self.endc)
                 if self.check and active:
                     print(self.okblue + "Not removed! (check mode)\n" + self.endc)
+                if not active and not self.force:
+                    print(self.okcyan + "Skipping\n" + self.endc)
                 self.total_rm += val
         total_rm_gb = self._convert(size_bytes=self.total_rm)
-        print(f"\nTotal removed: {total_rm_gb}")
+        print(f"Total removed: {total_rm_gb}")
 
 
 def get_argparser(argv: Optional[Sequence[str]] = None):
