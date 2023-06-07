@@ -14,9 +14,10 @@ This script is only supported on Linux. It requires at least python3.7.
 
 ## Features
 
-* Runs `du` to show the size of the files.
+* Shows the size of the files.
 * Can run interactive to skip file deletion
-* Can run force mode for ie cronjobs 
+* Can run check mode to see quick results without deletion
+* Can run force mode for example cronjobs 
 * Can search only results with modification date > then given days (default disabled)
 * Set the limit of results to show (default 5)
 * Define to search only files or directories. Default searches for both.
@@ -27,16 +28,19 @@ This script is only supported on Linux. It requires at least python3.7.
 
 ## Examples:
 ```
+# Remove files only older then 90 days, without prompt and detail.
+python3 durm.py /srv/app/logs/ -d 90 -f -b
+
 # Show results with file details, without removal.
 python3 durm.py /srv/app/logs/ -c -f
 
 # Show results of 10 files with the most disk usage, without removal.
 python3 durm.py /srv/app/logs/ -l 10 -c -f
 
-# Show results with only filenames (--brief), without removal.
+# Show results with only filenames, without removal.
 python3 durm.py /srv/app/logs/ -b -c -f
 
-# Show results with only directories (--type), without removal.
+# Show results with only directories, without removal.
 python3 durm.py /srv/app/logs/ -t d -c -f
 ```
 
