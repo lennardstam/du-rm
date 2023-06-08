@@ -3,14 +3,14 @@
 This script runs find, du and rm to remove files.
 Results are sorted on disk usage from a given path.
 
-It can be run manually, but its main purpose is to be run via cronjob.
+It can be run in cron jobs, but its main purpose is to manually walk trough the files to decide what to remove.
 
 This script is only supported on Linux. It requires at least python3.7.
 
 ## How to use
 
 * Clone this repository via git.
-* The rm command is commented out with an # for safety reason. Flip the # from line 9,and add it on line 10 in durm.py
+* The `rm` command is commented out with an # for safety reason. Flip the # from line 9,and add it on line 10 in durm.py
 * Run the script via `python3 durm.py {path} --options`.
 
 ## Features
@@ -29,9 +29,6 @@ This script is only supported on Linux. It requires at least python3.7.
 
 ## Examples:
 ```
-# Remove files only older then 90 days, without prompt and detail.
-python3 durm.py /srv/app/logs/ -d 90 -f -b
-
 # Show results with file details, without removal.
 python3 durm.py /srv/app/logs/ -c -f
 
@@ -43,6 +40,9 @@ python3 durm.py /srv/app/logs/ -b -c -f
 
 # Show results with only directories, without removal.
 python3 durm.py /srv/app/logs/ -t d -c -f
+
+# Remove files only older then 90 days, without prompt and detail.
+python3 durm.py /srv/app/logs/ -d 90 -f -b
 ```
 
 ## Options:
