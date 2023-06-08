@@ -46,7 +46,7 @@ class Cleanup:
         if size_bytes == 0:
             return "0B"
         i = int(math.floor(math.log(size_bytes, 1024)))
-        a = {1: "k", 2: "m", 3: "g", 4: "t", 5: "p", 6: "e"}
+        a = {0: "b",1: "k", 2: "m", 3: "g", 4: "t", 5: "p", 6: "e"}
         r = size_bytes / (1024**i)
         return "%s%s" % (round(r, 2), (a[i]))
 
@@ -69,7 +69,7 @@ class Cleanup:
         Returns:
             dict: filename and filesize as k, v 
         """
-
+        
         dir_details = {}
         for dir in dirs:
             du = subprocess.run(['du', '-b', '-d 0', dir], capture_output=True, text=True).stdout.strip()
