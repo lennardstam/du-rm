@@ -7,7 +7,7 @@ import math
 
 
 #CMD = ['rm', '-rf']
-CMD = ['date', '-r']
+CMD = ['test', '-n']
 
 class Cleanup:
     """remove files sorted on disk usage"""
@@ -108,7 +108,7 @@ class Cleanup:
                 if not self.force:
                     active = input(self.warning + "delete item? (y/n)? " + self.endc).lower() == "y"
                 if active and not self.check or self.force and not self.check:
-                    subprocess.run([CMD[0],CMD[1],key]).stdout
+                    run_rm = subprocess.run([CMD[0],CMD[1],key])
                     if not self.force:
                         print(self.okblue + "Removed!\n" + self.endc)
                 if self.check and active:
