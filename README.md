@@ -1,4 +1,4 @@
-# DURM Script
+# DU-RM Script
 
 This script runs find, du and rm to remove files.
 Results are sorted on disk usage from a given path.
