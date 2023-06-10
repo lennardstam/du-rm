@@ -31,7 +31,30 @@ class Cleanup:
         if dir_list := self._get_dirs():
             if dir_details := self._get_dir_size(dirs=dir_list):
                 if top_dirs := self._sort_dirs(dir_dict=dir_details):
-                    self._rm_dirs(top_dirs)
+                    print(f"Files in {self.path}: {len(top_dirs)}\nResult limit is: {self.limit}\n")
+                    for key, val in top_dirs.items():
+                        self.count += 1
+                        active = False
+                        if self.count <= self.limit:
+                            if self.brief:
+                                print(key)
+                            else:
+                                print(f"file: {key}\ntype: {subprocess.run(['file', '-b',key], stdout=subprocess.PIPE, text=True).stdout}size: {self._convert(size_bytes=val)}\n")
+                            if not self.force:
+                                active = input(self.warning + "delete item? (y/n)? " + self.endc).lower() == "y"
+                            if active and not self.check or self.force and not self.check:
+                                self._rm_dirs(key)
+                                if not self.force:
+                                    print(self.okblue + "Removed!\n" + self.endc)
+                            if self.check and active:
+                                print(self.okblue + "Not removed! (check mode)\n" + self.endc)
+                            if not active and not self.force:
+                                print(self.okcyan + "Skipping\n" + self.endc)
+                            self.total_rm += val
+                    total_rm_gb = self._convert(size_bytes=self.total_rm)
+                    print(f"Total removed: {total_rm_gb}")
+
+
 
     def _convert(self, size_bytes:int):
         """Convert bytes to human readable format
@@ -89,35 +112,14 @@ class Cleanup:
 
         return {k: int(v) for k, v in sorted(dir_dict.items(),key=lambda item: int(item[1]), reverse=True)}
 
-    def _rm_dirs(self, top_dirs: dict):
+    def _rm_dirs(self, key: str):
         """Remove files 
         
         Args:
             dict: sorted dict with filename and filesize
         """
-
-        print(f"Files in {self.path}: {len(top_dirs)}\nResult limit is: {self.limit}\n")
-        for key, val in top_dirs.items():
-            self.count += 1
-            active = False
-            if self.count <= self.limit:
-                if self.brief:
-                    print(key)
-                else:
-                    print(f"file: {key}\ntype: {subprocess.run(['file', '-b',key], stdout=subprocess.PIPE, text=True).stdout}size: {self._convert(size_bytes=val)}\n")
-                if not self.force:
-                    active = input(self.warning + "delete item? (y/n)? " + self.endc).lower() == "y"
-                if active and not self.check or self.force and not self.check:
-                    run_rm = subprocess.run([CMD[0],CMD[1],key])
-                    if not self.force:
-                        print(self.okblue + "Removed!\n" + self.endc)
-                if self.check and active:
-                    print(self.okblue + "Not removed! (check mode)\n" + self.endc)
-                if not active and not self.force:
-                    print(self.okcyan + "Skipping\n" + self.endc)
-                self.total_rm += val
-        total_rm_gb = self._convert(size_bytes=self.total_rm)
-        print(f"Total removed: {total_rm_gb}")
+        
+        run_rm = subprocess.run([CMD[0],CMD[1],key])
 
 
 def get_argparser(argv: Optional[Sequence[str]] = None):
